@@ -17,6 +17,7 @@ Invoke-Command -ComputerName $ServerB.Name -Credential PD19\Administrator -Scrip
 Invoke-Command -ComputerName $ServerB.name -ScriptBlock {
     # Configure DHCP Server
     $serverDNSName = "co1pd.pd19.fh.local"
+    $domainName = "pd19.fh.local"
     $scopeName = "PD19-DHCP-SCOPE"
     $range = "10.23.19.1", "10.23.19.254"
     $excludedAddresses = "10.23.19.1", "10.23.19.2", "10.23.19.3"
@@ -31,6 +32,7 @@ Invoke-Command -ComputerName $ServerB.name -ScriptBlock {
 
     Set-DhcpServerv4OptionValue -OptionId 3 -Value $defaultGateway -ScopeId $scopeId
     Set-DhcpServerv4OptionValue -OptionId 6 -Value $dnsServer -ScopeId $scopeId -Force
+    Set-DhcpServerv4OptionValue -OptionId 15 -Value $domainName -ScopeId $scopeId -Force
 
     # NetBios Ausschalten
     Set-DhcpServerv4OptionValue -OptionId 1 -VendorClass "Microsoft Windows 2000 Options" -Value 2 -ScopeId $scopeId
